@@ -33,17 +33,17 @@ export const HeroSection = () => {
 
   return (
     <section style={style}>
-      <h1
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          color: 'white',
-        }}
-      >
-        Hero section
-      </h1>
+      <div className='flex flex-col items-center justify-center w-full h-full gap-1'>
+        <p className='font-[family-name:var(--font-sackers-gothic-std)] text-[14px]'>
+          NOTRE NOUVELLE COLLECTION
+        </p>
+        <h1 className='font-[family-name:var(--font-saol-display-regular)] text-white xl:text-[80px] sm:text-[50px] md:text-[60px] lg:text-[70px] '>
+          Saveur des Rives
+        </h1>
+        <p className='font-[family-name:var(--font-saol-display-light-italic)] text-[32px]'>
+          Eau de parfum
+        </p>
+      </div>
     </section>
   );
 };
