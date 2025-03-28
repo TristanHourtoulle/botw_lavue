@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const Nav = () => {
   const navStyle: string =
-    'uppercase text-[12px] font-[family-name:var(--font-sackers-gothic-std)] transition-all hover:opacity-80 hover:translate-y-[-4px]';
+    'uppercase text-[12px] font-[family-name:var(--font-sackers-gothic)] transition-all hover:opacity-80 hover:translate-y-[-4px]';
   return (
     <nav className='w-full flex items-center justify-center gap-[80px]'>
       <Link href='#' className={navStyle}>

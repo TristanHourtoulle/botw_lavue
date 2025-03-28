@@ -67,7 +67,7 @@ export default function RootLayout({
         ${SaolDisplay_regular.variable}
       `}
     >
-      <body>{children}</body>
+      <body className='bg-white'>{children}</body>
     </html>
   );
 }
