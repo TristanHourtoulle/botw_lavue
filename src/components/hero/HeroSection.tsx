@@ -1,4 +1,7 @@
+'use client';
+
 import { getImageProps } from 'next/image';
+import { Header } from '../header/Header';
 
 function getBackgroundImage(srcSet = '') {
   const imageSet = srcSet
@@ -23,17 +26,19 @@ export const HeroSection = () => {
   const backgroundImage = getBackgroundImage(srcSet);
   const style: React.CSSProperties = {
     height: '100vh',
-    width: '100vw',
+    width: '100%',
     backgroundImage,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
   };
 
   return (
-    <section style={style}>
-      <div className='flex flex-col items-center justify-center w-full h-full gap-1'>
+    <section style={style} id='hero'>
+      <Header />
+      <div className='flex flex-col items-center justify-center flex-1 px-4 gap-1 pb-10'>
         <p className='font-[family-name:var(--font-sackers-gothic-std)] text-[14px]'>
           NOTRE NOUVELLE COLLECTION
         </p>
