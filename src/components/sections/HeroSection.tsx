@@ -39,7 +39,7 @@ export const HeroSection = () => {
     <section style={style} id='hero'>
       <Header />
       <div className='flex flex-col items-center justify-center flex-1 px-4 gap-1 pb-10'>
-        <p className='font-[family-name:var(--font-sackers-gothic)] text-[14px]'>
+        <p className='font-[family-name:var(--font-sackers-gothic-light)] text-[14px]'>
           NOTRE NOUVELLE COLLECTION
         </p>
         <h1 className='font-[family-name:var(--font-saol-display-regular)] text-white xl:text-[80px] sm:text-[50px] md:text-[60px] lg:text-[70px] '>

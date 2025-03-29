@@ -7,7 +7,7 @@ export const Logo = () => {
   return (
     <h2
       onClick={ScrollToHero}
-      className='transition-all hover:translate-x-1 font-[family-name:var(--font-saol-display-regular)] text-[64px] hover:cursor-pointer'
+      className=' font-[family-name:var(--font-saol-display-regular)] text-[64px] hover:cursor-pointer'
     >
       LAVUE
     </h2>
