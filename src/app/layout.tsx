@@ -65,6 +65,7 @@ export default function RootLayout({
         ${SaolDisplay_light.variable}
         ${SaolDisplay_light_italic.variable}
         ${SaolDisplay_regular.variable}
+        overflow-x-hidden
       `}
     >
       <body className='bg-white'>{children}</body>
