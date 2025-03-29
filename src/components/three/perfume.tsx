@@ -1,19 +1,20 @@
 "use client"
-import { Canvas, useLoader } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 const Model = () => {
-    const [model, setModel] = useState(null)
+    const [model, setModel] = useState<GLTF | null>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const loader = new GLTFLoader()
         console.log('Début du chargement du modèle...')
         loader.load(
-            '/sauvage_perfume.glb',
+            '/chanelperfume.glb',
             (gltf) => {
                 console.log('Modèle chargé avec succès:', gltf)
                 console.log('Contenu du modèle:', gltf.scene)
@@ -44,9 +45,9 @@ const Model = () => {
     return (
         <primitive
             object={model.scene}
-            scale={[10, 10, 10]}
+            scale={[0.5, 0.5, 0.5]}
             position={[0, 0, 0]}
-            rotation={[0, Math.PI, 0]}
+            rotation={[0, Math.PI * 0.5, 0]}
         />
     )
 }
@@ -60,7 +61,7 @@ const PerfumeScene = () => {
             top: 0,
             left: 0,
             zIndex: -1,
-            pointerEvents: 'auto' // Réactive les interactions avec le canvas
+            pointerEvents: 'auto'
         }}>
             <Canvas
                 camera={{ position: [0, 0, 10], fov: 50 }}
@@ -84,6 +85,10 @@ const PerfumeScene = () => {
                     <ambientLight intensity={1} />
                     <directionalLight position={[10, 10, 5]} intensity={2} />
                     <directionalLight position={[-10, 0, 0]} intensity={1} />
+                    <mesh>
+                        <boxGeometry args={[1, 1, 1]} />
+                        <meshStandardMaterial color="orange" />
+                    </mesh>
                     <Model />
                     <OrbitControls
                         enableDamping

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import PerfumeScene from "@/components/three/perfume";
 export default function Home() {
   return (
