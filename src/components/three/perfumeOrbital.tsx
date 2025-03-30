@@ -74,12 +74,6 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                     setModel(gltf)
                     setLoading(false)
                 },
-                (progress) => {
-                    const percent = (progress.loaded / progress.total * 100)
-                },
-                (error) => {
-                    setLoading(false)
-                }
             )
         }).catch(error => {
             setError(error.message)
