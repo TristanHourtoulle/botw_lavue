@@ -4,7 +4,7 @@ import { SpecificScentSection } from './new_collection/SpecificScentSection';
 
 export const NewCollection = () => {
   return (
-    <section className='bg-white w-full min-h-screen flex flex-col items-center justify-center gap-1 py-10'>
+    <section className='bg-white w-full min-h-screen flex flex-col items-center justify-center gap-10 py-10'>
       <Preview />
       <List />
       <SpecificScentSection />
