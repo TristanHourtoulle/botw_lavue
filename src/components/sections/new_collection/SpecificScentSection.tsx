@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import PerfumeScene from "@/components/three/perfume";
 
 export const SpecificScentSection = () => {
   return (
@@ -11,13 +12,7 @@ export const SpecificScentSection = () => {
         <h4 className='uppercase text-[#303199] text-[40px] font-[family-name:var(--font-saol-display-regular)]'>
           rive gauche
         </h4>
-        <Image
-          src={'/assets/Bottle-Fragrance-trsp 2.svg'}
-          alt='scent bottle'
-          width={300}
-          height={300}
-          className='w-[300px] h-[400px]'
-        />
+          <PerfumeScene xrot={1.575} yrot={1.317} zrot={-1.575} xpos={0} ypos={0} zpos={0} />
         <button className='transition-all hover:opacity-75 hover:cursor-pointer font-[family-name:var(--font-sackers-gothic-light)] text-[#303199] text-[12px] uppercase mt-auto flex items-center justify-center border-b border-[#303199] py-[10px]'>
           Voir le produit
         </button>

@@ -1,6 +1,6 @@
 // TODO: Need to align 'LaVue' & 'from Paris' to the 3D model
 
-import PerfumeScene from "@/components/three/perfume";
+import {PerfumeSceneOrbital} from "@/components/three/perfumeOrbital";
 
 export const Preview = () => {
   return (
@@ -8,7 +8,7 @@ export const Preview = () => {
       <p className='mb-auto text-center w-[201px] font-[family-name:var(--font-sackers-gothic)] text-[16px] leading-[1.2]'>
         chaque arôme retrace les décades de notre histoire
       </p>
-        <PerfumeScene/>
+        <PerfumeSceneOrbital xrot={1.575} yrot={1.317} zrot={-1.575} xpos={-2.25} ypos={0.7} zpos={0} />
       <div className='my-20 flex flex-col items-center justify-center relative gap-6'>
         <p className='translate-x-5 text-[80px] text-[#303199] font-[family-name:var(--font-saol-display-regular)] leading-[0.9]'>
           LaVue
