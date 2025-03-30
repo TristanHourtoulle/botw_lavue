@@ -1,35 +1,88 @@
 "use client"
 import { Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { MeshPhysicalMaterial } from 'three'
+import { Environment } from '@react-three/drei'
 
 const Model = () => {
     const [model, setModel] = useState<GLTF | null>(null)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const loader = new GLTFLoader()
-        console.log('Début du chargement du modèle...')
-        loader.load(
-            '/chanelperfume.glb',
-            (gltf) => {
-                console.log('Modèle chargé avec succès:', gltf)
-                console.log('Contenu du modèle:', gltf.scene)
-                setModel(gltf)
-                setLoading(false)
-            },
-            (progress) => {
-                console.log('Progression du chargement:', (progress.loaded / progress.total * 100) + '%')
-            },
-            (error) => {
-                console.error('Erreur de chargement du modèle:', error)
-                setLoading(false)
+        const gltfPath = '/perfume/chanelperfume.gltf'
+        const binPath = '/perfume/chanelperfume.bin'
+
+        console.log('Vérification des fichiers...')
+
+        Promise.all([
+            fetch(gltfPath),
+            fetch(binPath)
+        ]).then(([gltfResponse, binResponse]) => {
+            if (!gltfResponse.ok) {
+                throw new Error(`Le fichier GLTF n'existe pas (${gltfResponse.status})`)
             }
-        )
+            if (!binResponse.ok) {
+                throw new Error(`Le fichier BIN n'existe pas (${binResponse.status})`)
+            }
+            console.log('Les deux fichiers existent!')
+
+            loader.load(
+                gltfPath,
+                (gltf) => {
+                    console.log('Modèle chargé avec succès')
+
+                    gltf.scene.traverse((child: any) => {
+                        if (child.isMesh) {
+                            console.log('Material properties for', child.name, ':', child.material)
+
+                            if (child.name.toLowerCase().includes('cube')) {
+                                const glassMaterial = new MeshPhysicalMaterial({
+                                    color: '#efefef',
+                                    transmission: 1,
+                                    roughness: 0.35,
+                                    thickness: 500,
+                                    envMapIntensity: 4,
+                                    transparent: true
+                                })
+
+                                child.material = glassMaterial
+                            }
+                        }
+                    })
+
+                    setModel(gltf)
+                    setLoading(false)
+                },
+                (progress) => {
+                    const percent = (progress.loaded / progress.total * 100)
+                    console.log('Progression:', percent.toFixed(2) + '%')
+                },
+                (error) => {
+                    console.error('Erreur de chargement:', error)
+                    setError(error.message)
+                    setLoading(false)
+                }
+            )
+        }).catch(error => {
+            console.error('Erreur lors de la vérification des fichiers:', error)
+            setError(error.message)
+        })
     }, [])
+
+    if (error) {
+        return (
+            <mesh>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="red" />
+                {console.error('Erreur:', error)}
+            </mesh>
+        )
+    }
 
     if (loading) {
         return (
@@ -45,9 +98,9 @@ const Model = () => {
     return (
         <primitive
             object={model.scene}
-            scale={[0.5, 0.5, 0.5]}
-            position={[0, 0, 0]}
-            rotation={[0, Math.PI * 0.5, 0]}
+            scale={[0.3, 0.3, 0.3]}
+            position={[-2.25, 0.7, 0]}
+            rotation={[1.575, 1.317, -1.575]}
         />
     )
 }
@@ -60,7 +113,6 @@ const PerfumeScene = () => {
             position: 'absolute',
             top: 0,
             left: 0,
-            zIndex: -1,
             pointerEvents: 'auto'
         }}>
             <Canvas
@@ -73,7 +125,11 @@ const PerfumeScene = () => {
                 }}
                 gl={{
                     alpha: true,
-                    antialias: true
+                    antialias: true,
+                    toneMapping: 'ACESFilmicToneMapping',
+                    outputEncoding: 'sRGB',
+                    preserveDrawingBuffer: true,
+                    physicallyCorrectLights: true
                 }}
             >
                 <Suspense fallback={
@@ -82,24 +138,11 @@ const PerfumeScene = () => {
                         <meshStandardMaterial color="blue" />
                     </mesh>
                 }>
-                    <ambientLight intensity={1} />
-                    <directionalLight position={[10, 10, 5]} intensity={2} />
-                    <directionalLight position={[-10, 0, 0]} intensity={1} />
-                    <mesh>
-                        <boxGeometry args={[1, 1, 1]} />
-                        <meshStandardMaterial color="orange" />
-                    </mesh>
+                    <Environment preset="studio" intensity={1.5} />
+                    <ambientLight intensity={2} />
+                    <directionalLight position={[-10, 4, 0]} intensity={2} />
+                    <directionalLight position={[10, 4, 0]} intensity={2} />
                     <Model />
-                    <OrbitControls
-                        enableDamping
-                        dampingFactor={0.05}
-                        minDistance={5}
-                        maxDistance={20}
-                        target={[0, 0, 0]}
-                        enableZoom={true}
-                        enablePan={true}
-                        enableRotate={true}
-                    />
                 </Suspense>
             </Canvas>
         </div>
