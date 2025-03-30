@@ -1,10 +1,6 @@
 "use client"
 import { Canvas } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { Suspense } from 'react'
-import { useEffect, useState } from 'react'
-import { type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { MeshPhysicalMaterial } from 'three'
 import { Environment, OrbitControls } from '@react-three/drei'
 import {Model} from "@/components/three/perfumeOrbital";
 
@@ -19,10 +15,7 @@ const PerfumeScene = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number, ypos:
                 gl={{
                     alpha: true,
                     antialias: true,
-                    toneMapping: 'ACESFilmicToneMapping',
-                    outputEncoding: 'sRGB',
                     preserveDrawingBuffer: true,
-                    physicallyCorrectLights: true
                 }}
             >
                 <Suspense fallback={
@@ -31,7 +24,8 @@ const PerfumeScene = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number, ypos:
                         <meshStandardMaterial color="blue" />
                     </mesh>
                 }>
-                    <Environment preset="studio" />
+                    <Environment preset={"studio"} environmentIntensity={0.2} />
+                    <ambientLight intensity={1} />
                     <OrbitControls
                         enableZoom={false}
                         enablePan={false}

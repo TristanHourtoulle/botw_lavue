@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import { type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { MeshPhysicalMaterial } from 'three'
+import { MeshPhysicalMaterial, Object3D, Mesh, MeshStandardMaterial } from 'three'
 import { Environment } from '@react-three/drei'
 
 const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos: number, zpos:number, xrot: number, yrot: number, zrot:number, scale:number}) => {
@@ -36,21 +36,51 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                 (gltf) => {
                     console.log('Modèle chargé avec succès')
 
-                    gltf.scene.traverse((child: any) => {
-                        if (child.isMesh) {
-                            console.log('Material properties for', child.name, ':', child.material)
+                    gltf.scene.traverse((child: Object3D) => {
+                        if (child instanceof Mesh) {
+                            console.log('Mesh trouvé:', child.name);
+                            console.log('Position du mesh:', child.position);
+                            console.log('Scale du mesh:', child.scale);
 
-                            if (child.name.toLowerCase().includes('cube')) {
+                            if (child.name.toLowerCase() === 'cube') {
+                                console.log('Application du matériau verre au cube extérieur');
                                 const glassMaterial = new MeshPhysicalMaterial({
-                                    color: '#efefef',
-                                    transmission: 1,
-                                    roughness: 0.35,
-                                    thickness: 500,
-                                    envMapIntensity: 1,
-                                    transparent: true
-                                })
+                                    color: '#ffffff',
+                                    transmission: 0.9,
+                                    roughness: 0,
+                                    thickness: 0.5,
+                                    transparent: true,
+                                    envMapIntensity: 0.2,
+                                    clearcoat: 0,
+                                    clearcoatRoughness: 0,
+                                    side: 2
+                                });
+                                child.material = glassMaterial;
+                                child.renderOrder = 1;
+                            }
+                            else if (child.name.toLowerCase() === 'interior_cube') {
+                                console.log('Application du matériau liquide au cube intérieur');
+                                const liquidMaterial = new MeshStandardMaterial({
+                                    color: '#ff0000',
+                                    transparent: false,
+                                    roughness: 0.2,
+                                    metalness: 0.8,
+                                    emissive: '#ff0000',
+                                    emissiveIntensity: 0.2,
+                                });
 
-                                child.material = glassMaterial
+                                if (child.geometry) {
+                                    child.geometry.computeVertexNormals();
+                                    console.log('Normales recalculées pour le cube intérieur');
+                                }
+
+                                child.visible = true;
+                                child.renderOrder = 2;
+                                child.material = liquidMaterial;
+
+                                console.log('Position du cube intérieur:', child.position);
+                                console.log('Échelle du cube intérieur:', child.scale);
+                                console.log('Matériau appliqué:', liquidMaterial);
                             }
                         }
                     })
@@ -64,7 +94,6 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                 },
                 (error) => {
                     console.error('Erreur de chargement:', error)
-                    setError(error.message)
                     setLoading(false)
                 }
             )
@@ -79,7 +108,6 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
             <mesh>
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial color="red" />
-                {console.error('Erreur:', error)}
             </mesh>
         )
     }
@@ -126,10 +154,7 @@ const PerfumeSceneOrbital = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number
                 gl={{
                     alpha: true,
                     antialias: true,
-                    toneMapping: 'ACESFilmicToneMapping',
-                    outputEncoding: 'sRGB',
                     preserveDrawingBuffer: true,
-                    physicallyCorrectLights: true
                 }}
             >
                 <Suspense fallback={
@@ -138,10 +163,11 @@ const PerfumeSceneOrbital = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number
                         <meshStandardMaterial color="blue" />
                     </mesh>
                 }>
-                    <Environment preset="studio" intensity={1.5} />
-                    <ambientLight intensity={2} />
-                    <directionalLight position={[-10, 4, 0]} intensity={2} />
-                    <directionalLight position={[10, 4, 0]} intensity={2} />
+                    <Environment preset="studio" environmentIntensity={0.5}/>
+                    <ambientLight intensity={1} />
+                    <directionalLight position={[5, 5, 5]} intensity={1} />
+                    <directionalLight position={[-5, -5, -5]} intensity={0.5} />
+                    <pointLight position={[0, 0, 5]} intensity={1} />
                     <Model scale={0.3} xpos={xpos} ypos={ypos} zpos={zpos} xrot={xrot} yrot={yrot} zrot={zrot}/>
                 </Suspense>
             </Canvas>
