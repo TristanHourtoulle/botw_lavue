@@ -8,7 +8,7 @@ export type NavigationProps = {
 export const Navigation = ({ footerNav }: NavigationProps) => {
   return (
     <div className='flex flex-col items-start justify-center gap-[50px]'>
-      <h5 className='uppercase text-[18px] text-white font-[family-name:var(--font-saol-display-regular)]'>
+      <h5 className='uppercase text-[24px] text-white font-[family-name:var(--font-saol-display-regular)]'>
         {footerNav.title}
       </h5>
       <div className='flex flex-col items-start justify-center gap-[30px]'>
@@ -16,7 +16,7 @@ export const Navigation = ({ footerNav }: NavigationProps) => {
           <Link
             key={index}
             href={`/${item.href}`}
-            className='uppercase text-white text-[12px] font-[family-name:var(--font-sackers-gothic-light)]'
+            className='transition-all hover:opacity-60 uppercase text-white text-[12px] font-[family-name:var(--font-sackers-gothic-light)]'
           >
             {item.title}
           </Link>
