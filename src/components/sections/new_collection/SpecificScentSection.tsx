@@ -21,11 +21,11 @@ export const SpecificScentSection = () => {
       {/* Right Part */}
       <div className='w-[47%] max-w-screen overflow-x-hidden h-full'>
         <Image
-          src={'/assets/Rectangle 5.png'}
+          src={'/assets/image_lastsection.png'}
           width={800}
           height={800}
           alt='scent bottle'
-          className='w-full min-h-screen'
+          className='w-full h-full'
         />
       </div>
     </section>

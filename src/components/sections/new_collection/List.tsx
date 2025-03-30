@@ -3,17 +3,17 @@ import { ScentCard, ScentType } from './ScentCard';
 
 const scentList: ScentType[] = [
   {
-    image: '/assets/tempBgScent.png',
+    image: '/assets/image.png',
     name: 'Rue de Charonne',
     description: 'Cèdre, Pamplemousse, Mousse',
   },
   {
-    image: '/assets/tempBgScent.png',
+    image: '/assets/image.png',
     name: 'Faubourg Montmartre',
     description: 'CANELLE, BENJOIN, BIGARADE',
   },
   {
-    image: '/assets/tempBgScent.png',
+    image: '/assets/image.png',
     name: 'Rive Gauche',
     description: 'SANTAL, VANILLE, B...',
   },

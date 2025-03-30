@@ -17,8 +17,6 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
         const gltfPath = '/perfume/chanelperfume1.gltf'
         const binPath = '/perfume/chanelperfume1.bin'
 
-        console.log('Vérification des fichiers...')
-
         Promise.all([
             fetch(gltfPath),
             fetch(binPath)
@@ -29,21 +27,14 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
             if (!binResponse.ok) {
                 throw new Error(`Le fichier BIN n'existe pas (${binResponse.status})`)
             }
-            console.log('Les deux fichiers existent!')
 
             loader.load(
                 gltfPath,
                 (gltf) => {
-                    console.log('Modèle chargé avec succès')
 
                     gltf.scene.traverse((child: Object3D) => {
                         if (child instanceof Mesh) {
-                            console.log('Mesh trouvé:', child.name);
-                            console.log('Position du mesh:', child.position);
-                            console.log('Scale du mesh:', child.scale);
-
                             if (child.name.toLowerCase() === 'cube') {
-                                console.log('Application du matériau verre au cube extérieur');
                                 const glassMaterial = new MeshPhysicalMaterial({
                                     color: '#ffffff',
                                     transmission: 0.9,
@@ -59,7 +50,6 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                                 child.renderOrder = 1;
                             }
                             else if (child.name.toLowerCase() === 'interior_cube') {
-                                console.log('Application du matériau liquide au cube intérieur');
                                 const liquidMaterial = new MeshStandardMaterial({
                                     color: '#ff0000',
                                     transparent: false,
@@ -71,16 +61,12 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
 
                                 if (child.geometry) {
                                     child.geometry.computeVertexNormals();
-                                    console.log('Normales recalculées pour le cube intérieur');
                                 }
 
                                 child.visible = true;
                                 child.renderOrder = 2;
                                 child.material = liquidMaterial;
 
-                                console.log('Position du cube intérieur:', child.position);
-                                console.log('Échelle du cube intérieur:', child.scale);
-                                console.log('Matériau appliqué:', liquidMaterial);
                             }
                         }
                     })
@@ -90,35 +76,22 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                 },
                 (progress) => {
                     const percent = (progress.loaded / progress.total * 100)
-                    console.log('Progression:', percent.toFixed(2) + '%')
                 },
                 (error) => {
-                    console.error('Erreur de chargement:', error)
                     setLoading(false)
                 }
             )
         }).catch(error => {
-            console.error('Erreur lors de la vérification des fichiers:', error)
             setError(error.message)
         })
     }, [])
 
     if (error) {
-        return (
-            <mesh>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="red" />
-            </mesh>
-        )
+        return null
     }
 
     if (loading) {
-        return (
-            <mesh>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="orange" />
-            </mesh>
-        )
+        return null
     }
 
     if (!model) return null
