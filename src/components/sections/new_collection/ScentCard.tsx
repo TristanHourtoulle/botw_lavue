@@ -22,6 +22,7 @@ export const ScentCard = ({ scent }: ScentCardProps) => {
         className='w-[400px] h-[400px] 2xl:w-[700px] 2xl:h-[700px] object-fill'
       />
       <h4 className='mt-5 font-[family-name:var(--font-sackers-gothic)] text-[#303199] text-[16px] uppercase'>
+
         {scent.name}
       </h4>
       <p className='mt-2 font-[family-name:var(--font-sackers-gothic-light)] text-[#4A4A4A] text-[14px] uppercase'>
