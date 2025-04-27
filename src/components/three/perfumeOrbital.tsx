@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import { type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { MeshPhysicalMaterial, Object3D, Mesh, MeshStandardMaterial } from 'three'
+import { MeshPhysicalMaterial, Object3D, Mesh } from 'three'
 import { Environment } from '@react-three/drei'
 
 const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos: number, zpos:number, xrot: number, yrot: number, zrot:number, scale:number}) => {
