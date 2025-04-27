@@ -50,13 +50,17 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
                                 child.renderOrder = 1;
                             }
                             else if (child.name.toLowerCase() === 'interior_cube') {
-                                const liquidMaterial = new MeshStandardMaterial({
-                                    color: '#ff0000',
-                                    transparent: false,
-                                    roughness: 0.2,
-                                    metalness: 0.8,
-                                    emissive: '#ff0000',
-                                    emissiveIntensity: 0.2,
+                                const liquidMaterial = new MeshPhysicalMaterial({
+                                    color: '#ff6b00',
+                                    transmission: 0.2,
+                                    roughness: 0.1,
+                                    metalness: 0.5,
+                                    thickness: 0.5,
+                                    transparent: true,
+                                    envMapIntensity: 0.5,
+                                    clearcoat: 0.5,
+                                    clearcoatRoughness: 0.1,
+                                    side: 2
                                 });
 
                                 if (child.geometry) {

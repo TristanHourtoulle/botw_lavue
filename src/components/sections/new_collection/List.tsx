@@ -5,17 +5,17 @@ import { useState, useRef, useEffect } from 'react';
 
 const scentList: ScentType[] = [
   {
-    image: '/assets/image.png',
+    image: '/assets/Bottle-Fragrance-trsp 2.svg',
     name: 'Rue de Charonne',
     description: 'Cèdre, Pamplemousse, Mousse',
   },
   {
-    image: '/assets/image.png',
+    image: '/assets/Bottle-Fragrance-trsp 2.svg',
     name: 'Faubourg Montmartre',
     description: 'CANELLE, BENJOIN, BIGARADE',
   },
   {
-    image: '/assets/image.png',
+    image: '/assets/Bottle-Fragrance-trsp 2.svg',
     name: 'Rive Gauche',
     description: 'SANTAL, VANILLE, B...',
   },
@@ -41,7 +41,7 @@ export const List = () => {
     if (!isDragging) return;
     const currentX = e.touches[0].clientX;
     const diff = startX - currentX;
-    
+
     if (Math.abs(diff) > 50) {
       if (diff > 0 && currentIndex < scentList.length - 1) {
         setCurrentIndex(prev => prev + 1);
@@ -56,7 +56,7 @@ export const List = () => {
     if (!isDragging) return;
     const currentX = e.clientX;
     const diff = startX - currentX;
-    
+
     if (Math.abs(diff) > 50) {
       if (diff > 0 && currentIndex < scentList.length - 1) {
         setCurrentIndex(prev => prev + 1);
@@ -109,7 +109,7 @@ export const List = () => {
         </button>
       </div>
       {/* Right Part */}
-      <div 
+      <div
         ref={containerRef}
         className='w-full md:w-[60%] 2xl:w-[60%] overflow-x-auto md:overflow-x-scroll flex items-center justify-start gap-1 md:ml-3 scrollbar-hide'
         onTouchStart={handleTouchStart}
