@@ -100,7 +100,7 @@ const Model = ({xpos, ypos, zpos, xrot, yrot, zrot, scale}: {xpos: number, ypos:
     )
 }
 
-const PerfumeSceneOrbital = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number, ypos: number, zpos:number, xrot: number, yrot: number, zrot:number}) => {
+const PerfumeSceneOrbital = ({xpos, ypos, zpos, xrot, yrot, zrot, scale = 0.3}: {xpos: number, ypos: number, zpos:number, xrot: number, yrot: number, zrot:number, scale?: number}) => {
     return (
         <div style={{
             width: '100%',
@@ -135,7 +135,7 @@ const PerfumeSceneOrbital = ({xpos, ypos, zpos, xrot, yrot, zrot}: {xpos: number
                     <directionalLight position={[5, 5, 5]} intensity={1} />
                     <directionalLight position={[-5, -5, -5]} intensity={0.5} />
                     <pointLight position={[0, 0, 5]} intensity={1} />
-                    <Model scale={0.3} xpos={xpos} ypos={ypos} zpos={zpos} xrot={xrot} yrot={yrot} zrot={zrot}/>
+                    <Model scale={scale} xpos={xpos} ypos={ypos} zpos={zpos} xrot={xrot} yrot={yrot} zrot={zrot}/>
                 </Suspense>
             </Canvas>
         </div>
